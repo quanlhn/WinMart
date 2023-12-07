@@ -1,5 +1,7 @@
 import 'package:firebase_tutorial/consts/consts.dart';
+import 'package:firebase_tutorial/views/category_screen/category_details.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 Widget featuredButton({String? title, icon}) {
   return Row(
@@ -20,5 +22,8 @@ Widget featuredButton({String? title, icon}) {
       .padding(const EdgeInsets.all(4))
       .roundedSM
       .outerShadowSm
-      .make();
+      .make()
+      .onTap(() {
+    Get.to(() => CategoryDetails(title: title));
+  });
 }

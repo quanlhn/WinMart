@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:firebase_tutorial/consts/consts.dart';
-import 'package:firebase_tutorial/consts/images.dart';
 import 'package:firebase_tutorial/controller/profile_controller.dart';
 import 'package:firebase_tutorial/views/widgets_common/bg_widget.dart';
 import 'package:firebase_tutorial/views/widgets_common/custom_textfield.dart';

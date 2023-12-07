@@ -1,14 +1,23 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_tutorial/consts/consts.dart';
 import 'package:firebase_tutorial/consts/lists.dart';
+import 'package:firebase_tutorial/controller/home_controller.dart';
+import 'package:firebase_tutorial/services/firestore_services.dart';
+import 'package:firebase_tutorial/views/category_screen/item_details.dart';
 import 'package:firebase_tutorial/views/home_screen/components/featured_button.dart';
+import 'package:firebase_tutorial/views/home_screen/search_screen.dart';
 import 'package:firebase_tutorial/views/widgets_common/home_buttons.dart';
+import 'package:firebase_tutorial/views/widgets_common/loading_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    var controller = Get.find<HomeController>();
+
     return Container(
       padding: const EdgeInsets.all(12),
       color: lightGrey,
@@ -21,15 +30,21 @@ class HomeScreen extends StatelessWidget {
               alignment: Alignment.center,
               height: 60,
               color: lightGrey,
-              // Tạo trường nhập dữ liệu cho Thanh tìm kiếm
+              // Tạo trường nhập dữ liệu cho "Thanh tìm kiếm"
               child: TextFormField(
-                decoration: const InputDecoration(
+                controller: controller.searchController,
+                decoration: InputDecoration(
                   border: InputBorder.none,
-                  suffixIcon: Icon(Icons.search),
+                  suffixIcon: const Icon(Icons.search).onTap(() {
+                    if (controller.searchController.text.isNotEmptyAndNotNull) {
+                      Get.to(() => SearchScreen(
+                          title: controller.searchController.text));
+                    }
+                  }),
                   filled: true,
                   fillColor: whiteColor,
                   hintText: searchAnything,
-                  hintStyle: TextStyle(
+                  hintStyle: const TextStyle(
                     color: textfieldGrey,
                   ),
                 ),
@@ -125,7 +140,7 @@ class HomeScreen extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       child: featuredCategories.text
                           .color(darkFontGrey)
-                          .size(18)
+                          .size(20)
                           .fontFamily(semibold)
                           .make(),
                     ),
@@ -162,51 +177,84 @@ class HomeScreen extends StatelessWidget {
                         children: [
                           featuredProducts.text.white
                               .fontFamily(bold)
-                              .size(18)
+                              .size(20)
                               .make(),
                           10.heightBox,
                           // Sản phẩm phổ biến cuộn theo chiều ngang
                           SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
-                            child: Row( 
-                              children: List.generate(
-                                6,
-                                (index) => Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Image.asset(
-                                      imgWM1,
-                                      width: 190,
-                                      fit: BoxFit.cover,
-                                    ),
-                                    10.heightBox,
-
-                                    // Tạo chữ tạm thời
-                                    "Nồi chiên không dầu\nLock & Lock EJF179IVY\n5.5L"
+                            child: FutureBuilder(
+                                future: FirestoreServices.getFeaturedProduct(),
+                                builder: (context,
+                                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                                  if (!snapshot.hasData) {
+                                    return Center(
+                                      child: loadingIndicator(),
+                                    );
+                                  } else if (snapshot.data!.docs.isEmpty) {
+                                    return "Không có Sản phẩm phổ biến"
                                         .text
-                                        .fontFamily(semibold)
-                                        .color(darkFontGrey)
-                                        .make(),
-                                    10.heightBox,
+                                        .white
+                                        .makeCentered();
+                                  } else {
+                                    var featuredData = snapshot.data!.docs;
 
-                                    // Tạo giá tiền tạm thời
-                                    "1.299.000 đ"
-                                        .text
-                                        .color(redColor)
-                                        .fontFamily(bold)
-                                        .size(16)
-                                        .make()
-                                  ],
-                                )
-                                    .box
-                                    .white
-                                    .margin(const EdgeInsets.symmetric(
-                                        horizontal: 4))
-                                    .roundedSM
-                                    .padding(const EdgeInsets.all(8))
-                                    .make(),
-                              ),
-                            ),
+                                    return Row(
+                                      children: List.generate(
+                                        featuredData.length,
+                                        (index) => Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            /// product image
+                                            Image.network(
+                                              featuredData[index]['p_imgs'][0],
+                                              // width: 190,
+                                              // height: 190,
+                                              fit: BoxFit.cover,
+                                            ),
+                                            10.heightBox,
+
+                                            // create product name
+                                            "${featuredData[index]['p_name']}"
+                                                .text
+                                                .fontFamily(semibold)
+                                                .color(darkFontGrey)
+                                                .make(),
+                                            10.heightBox,
+
+                                            // create products price
+                                            "${featuredData[index]['p_price']}"
+                                                .numCurrencyWithLocale(
+                                                    locale: "vi")
+                                                .text
+                                                .color(redColor)
+                                                .fontFamily(bold)
+                                                .size(16)
+                                                .make()
+                                          ],
+                                        )
+                                            .box
+                                            .white
+                                            .width(200)
+                                            .margin(const EdgeInsets.symmetric(
+                                                horizontal: 4))
+                                            .roundedSM
+                                            .padding(const EdgeInsets.all(8))
+                                            .make()
+                                            .onTap(() {
+                                          Get.to(
+                                            () => ItemDetails(
+                                              title:
+                                                  "${featuredData[index]['p_name']}",
+                                              data: featuredData[index],
+                                            ),
+                                          );
+                                        }),
+                                      ),
+                                    );
+                                  }
+                                }),
                           ),
                         ],
                       ),
@@ -233,52 +281,88 @@ class HomeScreen extends StatelessWidget {
                         }),
                     20.heightBox,
 
-                    // Tạo danh mục tất cả sản phẩm còn lại
-                    GridView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: 6,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 8,
-                          crossAxisSpacing: 8,
-                          mainAxisExtent: 300,
-                        ),
-                        itemBuilder: (context, index) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Image.asset(
-                                imgWM2,
-                                height: 200,
-                                width: 200,
-                                fit: BoxFit.cover,
+                    /// Tạo danh mục tất cả sản phẩm còn lại
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: allProducts.text
+                          .color(darkFontGrey)
+                          .size(20)
+                          .fontFamily(semibold)
+                          .make(),
+                    ),
+                    10.heightBox,
+                    StreamBuilder(
+                        stream: FirestoreServices.allProducts(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<QuerySnapshot> snapshot) {
+                          if (!snapshot.hasData) {
+                            return loadingIndicator();
+                          } else {
+                            var allProductsData = snapshot.data!.docs;
+
+                            return GridView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: allProductsData.length,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisSpacing: 8,
+                                crossAxisSpacing: 6,
+
+                                /// Chiều dài Grid
+                                mainAxisExtent: 330,
                               ),
-                              const Spacer(),
-                              10.heightBox,
-                              // Tạo chữ tạm thời
-                              "Nồi cơm điện tử L&L EJR156 1.8L"
-                                  .text
-                                  .fontFamily(semibold)
-                                  .color(darkFontGrey)
-                                  .make(),
-                              10.heightBox,
-                              // Tạo giá tiền tạm thời
-                              "1.259.000 đ"
-                                  .text
-                                  .color(redColor)
-                                  .fontFamily(bold)
-                                  .size(16)
-                                  .make()
-                            ],
-                          )
-                              .box
-                              .white
-                              .margin(const EdgeInsets.symmetric(horizontal: 4))
-                              .roundedSM
-                              .padding(const EdgeInsets.all(12))
-                              .make();
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    /// create Image product
+                                    Image.network(
+                                      allProductsData[index]['p_imgs'][0],
+                                      height: 200,
+                                      // width: 200,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    const Spacer(),
+                                    10.heightBox,
+                                    // create name product
+                                    "${allProductsData[index]['p_name']}"
+                                        .text
+                                        .fontFamily(semibold)
+                                        .color(darkFontGrey)
+                                        .make(),
+                                    10.heightBox,
+                                    // Tạo giá tiền tạm thời
+                                    "${allProductsData[index]['p_price']}"
+                                        .numCurrencyWithLocale(locale: "vi")
+                                        .text
+                                        .color(redColor)
+                                        .fontFamily(bold)
+                                        .size(16)
+                                        .make(),
+                                  ],
+                                )
+                                    .box
+                                    .white
+                                    .outerShadowSm
+                                    .margin(const EdgeInsets.symmetric(
+                                        horizontal: 4))
+                                    .roundedSM
+                                    .padding(const EdgeInsets.all(12))
+                                    .make()
+                                    .onTap(() {
+                                  Get.to(
+                                    () => ItemDetails(
+                                      title:
+                                          "${allProductsData[index]['p_name']}",
+                                      data: allProductsData[index],
+                                    ),
+                                  );
+                                });
+                              },
+                            );
+                          }
                         }),
                   ],
                 ),

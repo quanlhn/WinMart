@@ -1,7 +1,5 @@
-import 'package:firebase_tutorial/consts/colors.dart';
 import 'package:firebase_tutorial/consts/consts.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 Widget orderStatus({icon, newColor, title, showDone}) {
   return ListTile(

@@ -28,13 +28,14 @@ const account = "Tài khoản";
 
 // home screen
 const searchAnything = "Tìm kiếm ...";
-const todayDeal = "Khuyến mại"; // hoặc voucher
+const todayDeal = "Khuyến Mại"; // hoặc voucher
 const flashSale = "Flash Sale";
-const topSellers = "Bán chạy"; // Sản phẩm bán chạy
-const brand = "Sản phẩm";
-const topCategories = "Danh mục"; // Danh mục nổi bật
-const featuredCategories = "Danh mục phổ biến";
-const featuredProducts = "Sản phẩm phổ biến";
+const topSellers = "Bán Chạy"; // Sản phẩm bán chạy
+const brand = "Sản Phẩm";
+const topCategories = "Danh Mục"; // Danh mục nổi bật
+const featuredCategories = "Danh Mục Phổ Biến";
+const featuredProducts = "Sản Phẩm Phổ Biến";
+const allProducts = "Tất Cả Sản Phẩm";
 
 // "Danh mục phổ biến" (Sau sẽ đổi thành -> sản phẩm trong siêu thị)
 const meat = "Thịt - Hải Sản",

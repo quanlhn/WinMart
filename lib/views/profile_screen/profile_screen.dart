@@ -10,6 +10,7 @@ import 'package:firebase_tutorial/views/orders_screen/orders_screen.dart';
 import 'package:firebase_tutorial/views/profile_screen/components/details_card.dart';
 import 'package:firebase_tutorial/views/profile_screen/edit_profile_screen.dart';
 import 'package:firebase_tutorial/views/widgets_common/bg_widget.dart';
+import 'package:firebase_tutorial/views/widgets_common/loading_indicator.dart';
 import 'package:firebase_tutorial/views/wishlist_screen/wishlist_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -140,30 +141,80 @@ class ProfileScreen extends StatelessWidget {
                     10.heightBox,
 
                     /// Tạo Column thống kê giỏ hàng
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        detailsCard(
-                            count: data['cart_count'],
-                            title: "Giỏ hàng",
-                            width: context.screenWidth / 3.2),
-                        detailsCard(
-                            count: data['wishlist_count'],
-                            title: "Yêu thích",
-                            width: context.screenWidth / 3.2),
-                        detailsCard(
-                            count: data['order_count'],
-                            title: "Đơn hàng",
-                            width: context.screenWidth / 3.2),
-                      ],
-                    )
-                        .box
-                        .rounded
-                        .margin(const EdgeInsets.all(1))
-                        .make()
-                        .box
-                        .color(redColor)
-                        .make(),
+                    FutureBuilder(
+                        future: FirestoreServices.getCounts(),
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          if (!snapshot.hasData) {
+                            return Center(child: loadingIndicator());
+                          } else {
+                            var countData = snapshot.data;
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    detailsCard(
+                                      count: countData[0].toString(),
+                                      title: "Giỏ hàng",
+                                      width: context.screenWidth / 3.2,
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    detailsCard(
+                                      count: countData[1].toString(),
+                                      title: "Yêu thích",
+                                      width: context.screenWidth / 3.2,
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    detailsCard(
+                                      count: countData[2].toString(),
+                                      title: "Đơn hàng",
+                                      width: context.screenWidth / 3.2,
+                                    ),
+                                  ],
+                                )
+                                    .box
+                                    .rounded
+                                    .margin(const EdgeInsets.all(1))
+                                    .make()
+                                    .box
+                                    .color(redColor)
+                                    .make(),
+                              ],
+                            );
+                          }
+                        }),
+
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    //   children: [
+                    //     detailsCard(
+                    //         count: data['cart_count'],
+                    //         title: "Giỏ hàng",
+                    //         width: context.screenWidth / 3.2),
+                    //     detailsCard(
+                    //         count: data['wishlist_count'],
+                    //         title: "Yêu thích",
+                    //         width: context.screenWidth / 3.2),
+                    //     detailsCard(
+                    //         count: data['order_count'],
+                    //         title: "Đơn hàng",
+                    //         width: context.screenWidth / 3.2),
+                    //   ],
+                    // )
+                    //     .box
+                    //     .rounded
+                    //     .margin(const EdgeInsets.all(1))
+                    //     .make()
+                    //     .box
+                    //     .color(redColor)
+                    //     .make(),
 
                     // Button option tài khoản
                     ListView.separated(

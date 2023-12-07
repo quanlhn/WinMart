@@ -14,7 +14,7 @@ class ItemDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     /// Tạo controller product
-    var controller = Get.find<ProductController>();
+    var controller = Get.put(ProductController());
 
     return WillPopScope(
       /// Khi bấm nút quay lại trên android cũng resetValues
