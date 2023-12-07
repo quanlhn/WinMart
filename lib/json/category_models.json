@@ -1,0 +1,87 @@
+{
+    "categories": [
+        {
+            "name": "Thịt - Hải Sản",
+            "subcategory": [
+                "Thịt",
+                "Hải Sản"
+            ]
+        },
+        {
+            "name": "Rau - Củ - Trái Cây",
+            "subcategory": [
+                "Rau Lá",
+                "Củ Quả",
+                "Trái Cây Tươi"
+            ]
+        },
+        {
+            "name": "Hóa Phẩm - Tẩy Rửa",
+            "subcategory": [
+                "Bình Xịt Côn Trùng",
+                "Nước Giặt",
+                "Nước Lau Sàn - Lau Kính",
+                "Nước Rửa Chén",
+                "Nước Tẩy Rửa",
+                "Nước Xả"
+            ]
+        },
+        {
+            "name": "Chăm Sóc Cá Nhân",
+            "subcategory": [
+                "Chăm Sóc Tóc",
+                "Chăm Sóc Da",
+                "Chăm Sóc Răng Miệng",
+                "Chăm Sóc Phụ Nữ",
+                "Chăm Sóc Cá Nhân Khác",
+                "Mỹ Phẩm"
+            ]
+        },
+        {
+            "name": "Sữa Các Loại",
+            "subcategory": [
+                "Sữa Tươi",
+                "Sữa Hạt - Sữa Đậu",
+                "Sữa Bột",
+                "Bơ Sữa - Phô Mai",
+                "Sữa Đặc",
+                "Sữa Chua - Váng Sữa"
+            ]
+        },
+        {
+            "name": "Bánh Kẹo",
+            "subcategory": [
+                "Bánh Xốp - Bánh Quy",
+                "Kẹo - Chocolate",
+                "Bánh Snack",
+                "Hạt - Trái Cây Sấy Khô"
+            ]
+        },
+        {
+            "name": "Đồ Uống Có Cồn",
+            "subcategory": [
+                "Bia",
+                "Rượu"
+            ]
+        },
+        {
+            "name": "Đồ Uống - Giải Khát",
+            "subcategory": [
+                "Cà Phê",
+                "Nước Suối",
+                "Nước Ngọt",
+                "Trà - Các Loại Khác"
+            ]
+        },
+        {
+            "name": "Mì - Thực Phẩm Ăn Liền",
+            "subcategory": [
+                "Mì",
+                "Miến - Hủ Tíu - Bánh Canh",
+                "Cháo",
+                "Phở - Bún"
+            ]
+        }
+        
+    ]
+}
