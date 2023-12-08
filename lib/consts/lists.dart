@@ -75,5 +75,5 @@ const profileButtonsList = [orders, wishlist, message, refund];
 const profileButtonsIcon = [icOrder, icOrders, icMessages, icRefund];
 
 // List Image cho màn "Phương thức thanh toán"
-const paymentMethodsImg = [imgPaypal, imgStripe, imgCod];
-const paymentMethods = [paypal, stripe, cod];
+const paymentMethodsImg = [imgCod];
+const paymentMethods = [cod];

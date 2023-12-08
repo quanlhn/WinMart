@@ -67,4 +67,4 @@ const wishlist = "Yêu thích",
     newPass = "Mật khẩu mới";
 
 // Phần "Phương thức thanh toán"
-const paypal = "Paypal", stripe = "Stripe", cod = "Giao hàng thu tiền hộ";
+const cod = "Giao hàng thu tiền hộ";
