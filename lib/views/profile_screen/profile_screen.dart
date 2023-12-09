@@ -33,10 +33,8 @@ class ProfileScreen extends StatelessWidget {
             // Kiểm tra nếu không có dữ liệu => loading liên tục
             // Đôi khi Firebase up dữ liệu chậm thì sẽ vào trường hợp này
             if (!snapshot.hasData) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation(redColor),
-                ),
+              return Center(
+                child: loadingIndicator(),
               );
             } else {
               // Nếu có dữ liệu => Set vào var data để sử dụng

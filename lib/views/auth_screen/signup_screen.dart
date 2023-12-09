@@ -46,171 +46,175 @@ class _SignupScreenState extends State<SignupScreen> {
               15.heightBox,
 
               Obx(
-                () => Column(
-                  children: [
-                    // Tạo trường nhập cho Họ tên
-                    customTextField(
-                        hint: nameHint,
-                        title: name,
-                        controller: nameController,
-                        isPass: false),
-                    // Tạo trường nhập cho Email và Mật khẩu
-                    customTextField(
-                        hint: emailHint,
-                        title: email,
-                        controller: emailController,
-                        isPass: false),
-                    customTextField(
-                        hint: passwordHint,
-                        title: password,
-                        controller: passwordController,
-                        isPass: true),
-                    // Tạo trường nhập cho "Nhập lại mật khẩu"
-                    customTextField(
-                        hint: passwordHint,
-                        title: retypePassword,
-                        controller: passwordRetypeController,
-                        isPass: true),
-                    // Align(
-                    //   alignment: Alignment.centerRight,
-                    //   // Tạo chữ "Quên mật khẩu"
-                    //   child: TextButton(
-                    //     onPressed: () {},
-                    //     child: forgetPass.text.make(),
-                    //   ),
-                    // ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        onPressed: () {},
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Icon(Icons.lock),
-                            SizedBox(
-                              width: 5,
-                            ), // Khoảng cách giữa icon và văn bản
-                            Text(forgetPass),
-                          ],
-                        ),
-                      ),
-                    ),
-                    5.heightBox,
-                    // Tạo check box "đồng ý với điều khoản dịch vụ...""
-                    Row(
-                      children: [
-                        Checkbox(
-                          activeColor: redColor,
-                          checkColor: whiteColor,
-                          value: isCheck,
-                          onChanged: (newValue) {
-                            setState(() {
-                              isCheck = newValue;
-                            });
-                          },
-                        ),
-                        10.widthBox,
-                        Expanded(
-                          child: RichText(
-                            text: const TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: "Tôi đồng ý với ",
-                                  style: TextStyle(
-                                    fontFamily: regular,
-                                    color: fontGrey,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: termAndCondi,
-                                  style: TextStyle(
-                                    fontFamily: regular,
-                                    color: redColor,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: " & ",
-                                  style: TextStyle(
-                                    fontFamily: regular,
-                                    color: fontGrey,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: privacyPolicy,
-                                  style: TextStyle(
-                                    fontFamily: regular,
-                                    color: redColor,
-                                  ),
-                                ),
-                              ],
-                            ),
+                () => SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    children: [
+                      // Tạo trường nhập cho Họ tên
+                      customTextField(
+                          hint: nameHint,
+                          title: name,
+                          controller: nameController,
+                          isPass: false),
+                      // Tạo trường nhập cho Email và Mật khẩu
+                      customTextField(
+                          hint: emailHint,
+                          title: email,
+                          controller: emailController,
+                          isPass: false),
+                      customTextField(
+                          hint: passwordHint,
+                          title: password,
+                          controller: passwordController,
+                          isPass: true),
+                      // Tạo trường nhập cho "Nhập lại mật khẩu"
+                      customTextField(
+                          hint: passwordHint,
+                          title: retypePassword,
+                          controller: passwordRetypeController,
+                          isPass: true),
+                      // Align(
+                      //   alignment: Alignment.centerRight,
+                      //   // Tạo chữ "Quên mật khẩu"
+                      //   child: TextButton(
+                      //     onPressed: () {},
+                      //     child: forgetPass.text.make(),
+                      //   ),
+                      // ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          onPressed: () {},
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Icon(Icons.lock),
+                              SizedBox(
+                                width: 5,
+                              ), // Khoảng cách giữa icon và văn bản
+                              Text(forgetPass),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                    5.heightBox,
+                      ),
+                      5.heightBox,
+                      // Tạo check box "đồng ý với điều khoản dịch vụ...""
+                      Row(
+                        children: [
+                          Checkbox(
+                            activeColor: redColor,
+                            checkColor: whiteColor,
+                            value: isCheck,
+                            onChanged: (newValue) {
+                              setState(() {
+                                isCheck = newValue;
+                              });
+                            },
+                          ),
+                          10.widthBox,
+                          Expanded(
+                            child: RichText(
+                              text: const TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: "Tôi đồng ý với ",
+                                    style: TextStyle(
+                                      fontFamily: regular,
+                                      color: fontGrey,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: termAndCondi,
+                                    style: TextStyle(
+                                      fontFamily: regular,
+                                      color: redColor,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: " & ",
+                                    style: TextStyle(
+                                      fontFamily: regular,
+                                      color: fontGrey,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: privacyPolicy,
+                                    style: TextStyle(
+                                      fontFamily: regular,
+                                      color: redColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      5.heightBox,
 
-                    /// Tạo nút "Đăng ký"
-                    controller.isLoading.value
-                        ? const CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation(redColor),
-                          )
-                        : ourButton(
+                      /// Tạo nút "Đăng ký"
+                      controller.isLoading.value
+                          ? const CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation(redColor),
+                            )
+                          : ourButton(
 
-                            /// Điều kiện: đã check check box "Điều khoản dịch vụ"
-                            color: isCheck == true ? redColor : lightGrey,
-                            title: signup,
-                            textColor: whiteColor,
+                              /// Điều kiện: đã check check box "Điều khoản dịch vụ"
+                              color: isCheck == true ? redColor : lightGrey,
+                              title: signup,
+                              textColor: whiteColor,
 
-                            /// xử lý sự kiện on press
-                            onPress: () async {
-                              if (isCheck != false) {
-                                /// set flag = true => hiệu ứng loading
-                                controller.isLoading(true);
-                                try {
-                                  /// truyền dữ liệu từ controller vào sign up method
-                                  await controller
-                                      .signupMethod(
-                                          context: context,
+                              /// xử lý sự kiện on press
+                              onPress: () async {
+                                if (isCheck != false) {
+                                  /// set flag = true => hiệu ứng loading
+                                  controller.isLoading(true);
+                                  try {
+                                    /// truyền dữ liệu từ controller vào sign up method
+                                    await controller
+                                        .signupMethod(
+                                            context: context,
+                                            email: emailController.text,
+                                            password: passwordController.text)
+                                        .then(
+                                      (value) {
+                                        /// then store data lại
+                                        return controller.storeUserData(
                                           email: emailController.text,
-                                          password: passwordController.text)
-                                      .then(
-                                    (value) {
-                                      /// then store data lại
-                                      return controller.storeUserData(
-                                        email: emailController.text,
-                                        password: passwordController.text,
-                                        name: nameController.text,
-                                      );
-                                    },
-                                  ).then(
-                                    (value) {
-                                      /// then Thông báo ra màn hình Đăng nhập thành công
-                                      VxToast.show(context, msg: loginSuccess);
+                                          password: passwordController.text,
+                                          name: nameController.text,
+                                        );
+                                      },
+                                    ).then(
+                                      (value) {
+                                        /// then Thông báo ra màn hình Đăng nhập thành công
+                                        VxToast.show(context,
+                                            msg: loginSuccess);
 
-                                      /// chuyển sang màn Home (không quay lại được màn sign up)
-                                      Get.offAll(() => const Home());
-                                    },
-                                  );
-                                } catch (e) {
-                                  /// Nếu error Đăng xuất authentication instance
-                                  auth.signOut();
-                                  VxToast.show(context, msg: e.toString());
+                                        /// chuyển sang màn Home (không quay lại được màn sign up)
+                                        Get.offAll(() => const Home());
+                                      },
+                                    );
+                                  } catch (e) {
+                                    /// Nếu error Đăng xuất authentication instance
+                                    auth.signOut();
+                                    VxToast.show(context, msg: e.toString());
 
-                                  /// set lại flag hiệu ứng loading
-                                  controller.isLoading(false);
+                                    /// set lại flag hiệu ứng loading
+                                    controller.isLoading(false);
+                                  }
                                 }
-                              }
-                            }).box.width(context.screenWidth - 50).make(),
-                  ],
-                )
-                    .box
-                    .white
-                    .rounded
-                    .padding(const EdgeInsets.all(16))
-                    .width(context.screenWidth - 70)
-                    .shadowSm
-                    .make(),
+                              }).box.width(context.screenWidth - 50).make(),
+                    ],
+                  )
+                      .box
+                      .white
+                      .rounded
+                      .padding(const EdgeInsets.all(16))
+                      .width(context.screenWidth - 70)
+                      .shadowSm
+                      .make(),
+                ),
               ),
               10.heightBox,
               // Tạo chữ "Đã có tài khoản? Đăng nhập"
